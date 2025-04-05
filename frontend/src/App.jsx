@@ -1,14 +1,14 @@
-import { useEffect } from 'react'
-import './App.css'
-import { pingApi } from './apis/ping.js'
+import { useState } from 'react';
+import './App.css';
+import { PingComponent } from './components/atoms/PingComponents.jsx';
 
 function App() {
-  useEffect(() => {
-    pingApi()
-  }, [])
-  return (
+  const [isVisible, setIsVisible] = useState(false);
+
+  return(
     <>
-      Hello Frontend
+      <button onClick={() => {setIsVisible(!isVisible)}}>Toggle</button>
+      {isVisible && <PingComponent/>}
     </>
   )
 }
