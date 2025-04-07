@@ -10,19 +10,17 @@ export const createProjectController = async (req, res) => {
     console.log("New project id:", projectId);
 
     // create folder with unique id 
-    try{
-        await fs.mkdir(`./projects/${projectId}`,{recursive: true});
-        // remove await for get postman perfect response
-        const response = await execPromisified(
-            'npm create vite@latest playground-react -- --template react --yes',
-            { cwd: `./projects/${projectId}` }
-        );
-    } catch(err) {
-        console.error('Failed to create project :', err);
-    }
+    await fs.mkdir(`./projects/${projectId}`,{recursive: true});
+    const response = await execPromisified(
+        'npm create vite@latest playground-react -- --template react',
+        { cwd: `./projects/${projectId}` }
+    );
   
     return res.json({
         message: "Project created successfully",
         data: projectId
     })
 }
+
+
+
