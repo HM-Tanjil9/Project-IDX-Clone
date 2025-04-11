@@ -8,7 +8,7 @@ export const useActiveFileTab = create((set) => {
                 activeFileTab: {
                     path: path,
                     value: value,
-                    extension: extension
+                    extension: extension 
                 }
             })
         }
