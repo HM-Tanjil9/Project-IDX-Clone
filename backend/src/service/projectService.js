@@ -24,3 +24,4 @@ export const getProjectTreeService = async (projectId) => {
     const tree = directoryTree(projectPath);
     return tree;
 }
+
