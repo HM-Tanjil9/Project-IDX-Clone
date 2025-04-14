@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
+import { FileIcon } from "../../atoms/EditorButton/FileIcon/FileIcon.jsx";
 export const TreeNode = ({fileFolderData}) => {
     const [visibility, setVisibility] = useState({})
 
@@ -10,6 +11,11 @@ export const TreeNode = ({fileFolderData}) => {
             ...visibility,
             [name]: !visibility[name]
         })
+    }
+
+    function computeExtension(fileFolderData) {
+        const names = fileFolderData.name.split('.');
+        return names[names.length - 1];
     }
     
     return (
@@ -39,16 +45,21 @@ export const TreeNode = ({fileFolderData}) => {
                         {fileFolderData.name}
                     </button>
                 ) : (
-                    <p
-                        style={{
-                            paddingTop: '10px',
-                            fontSize: '16px',
-                            cursor: 'pointer',
-                            marginLeft: '5px',
-                        }}
-                    >
-                        {fileFolderData.name}
-                    </p>
+                    <div style={{display: 'flex', alignItems: 'center'}}>
+                        {
+                            <FileIcon extension={computeExtension(fileFolderData)}/> 
+                        }
+                        <p
+                            style={{
+                                paddingTop: '0px',
+                                fontSize: '16px',
+                                cursor: 'pointer',
+                                marginLeft: '5px',
+                            }}
+                        >
+                            {fileFolderData.name}
+                        </p>
+                    </div>
                 )
             }
             {

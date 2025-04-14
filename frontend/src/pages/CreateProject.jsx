@@ -7,10 +7,8 @@ export const CreateProject = () => {
     const {createProjectMutation, isPending} = useCreateProject();
     const navigate = useNavigate();
     async function handleCreateProject() {
-        console.log("Trigger the api");
         try{
             const response = await createProjectMutation();
-            console.log("We should redirect to the editor");
             navigate(`/projects/${response.data}`);
         } catch(err) {
             console.log('Failed to creating the project', err);

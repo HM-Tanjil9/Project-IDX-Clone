@@ -20,7 +20,7 @@ export const createProjectService = async () => {
 }
 
 export const getProjectTreeService = async (projectId) => {
-    const projectPath =  path.resolve(`./projects/${projectId}`);
+    const projectPath = path.resolve(`./projects/${projectId}`);
     const tree = directoryTree(projectPath);
     return tree;
 }

@@ -31,8 +31,7 @@ export const EditorComponent = () => {
         <>
             {
                 editorState.theme && <Editor 
-                    height={'80vh'}
-                    width={'100%'}
+                    height={'100vh'}
                     defaultLanguage="javascript"
                     defaultValue="// Welcome to the playground"
                     options={{
