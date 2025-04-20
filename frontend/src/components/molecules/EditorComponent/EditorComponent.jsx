@@ -1,10 +1,15 @@
 import { Editor } from "@monaco-editor/react";
 import { useEffect, useState } from "react";
+import { useEditorSocketStore } from "../../../store/editorSocketStore.js";
+import { useActiveFileTab } from "../../../store/useActiveFileTab.js";
 
 export const EditorComponent = () => {
     const [editorState, setEditorState] = useState({
         theme: null
-    })
+    });
+    const { editorSocket } = useEditorSocketStore();
+    const {activeFileTab, setActiveFileTab} = useActiveFileTab();
+
     async function downloadTheme() {
         const response = await fetch('/src/assets/editor-theme/Dracula.json');
         const data = await response.json();
@@ -18,6 +23,12 @@ export const EditorComponent = () => {
         monaco.editor.defineTheme('dracula', editorState.theme);
         monaco.editor.setTheme('dracula');
     }
+
+    editorSocket?.on("readFileSuccess", (data) => { 
+        console.log("Read file success", data);
+        setActiveFileTab(data.path, data.value)
+    });
+    
     
     useEffect(() => {
         downloadTheme();
@@ -32,8 +43,9 @@ export const EditorComponent = () => {
             {
                 editorState.theme && <Editor 
                     height={'100vh'}
-                    defaultLanguage="javascript"
-                    defaultValue="// Welcome to the playground"
+                    defaultLanguage='undefined'
+                    defaultValue= "// Welcome to the playground"
+                    value={activeFileTab?.value}
                     options={{
                         fontSize: 18,
                         fontFamily: 'monospace'

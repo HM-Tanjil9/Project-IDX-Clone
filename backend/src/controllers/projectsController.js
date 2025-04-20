@@ -14,14 +14,16 @@ export const createProjectController = async (req, res) => {
 }
 
 export const getProjectTree = async (req, res) => {
-    
     const tree = await getProjectTreeService(req.params.projectId);
+    
     return res.status(StatusCodes.OK).json({
         data: tree,
         success: true,
         message: "Successfully fetched the tree"
     })
 } 
+
+
 
 
 

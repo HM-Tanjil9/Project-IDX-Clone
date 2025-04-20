@@ -1,8 +1,8 @@
-import { io } from 'socket.io-client';
+// import { io } from 'socket.io-client';
 import './App.css';
 import { Router } from './Router.jsx';
 function App() {
-  const socket = io(import.meta.env.VITE_BACKEND_URL);
+  // const socket = io(import.meta.env.VITE_BACKEND_URL);
   // const [isVisible, setIsVisible] = useState(false);
   return(
     <>

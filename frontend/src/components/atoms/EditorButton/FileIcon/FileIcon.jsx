@@ -4,7 +4,7 @@ import { TbGitBranchDeleted } from "react-icons/tb";
 import { VscJson } from "react-icons/vsc";
 
 export const FileIcon = ({ extension }) => {
-    console.log(extension);
+    // console.log(extension);
     
     const iconStyle = {
         height: '20px', width: '20px'
