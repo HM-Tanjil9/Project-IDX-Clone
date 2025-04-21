@@ -4,11 +4,12 @@ import { useEditorSocketStore } from "../../../store/editorSocketStore.js";
 import { useActiveFileTab } from "../../../store/useActiveFileTab.js";
 
 export const EditorComponent = () => {
+    let timerId = null;
     const [editorState, setEditorState] = useState({
         theme: null
     });
-    const { editorSocket } = useEditorSocketStore();
-    const {activeFileTab, setActiveFileTab} = useActiveFileTab();
+    const {activeFileTab} = useActiveFileTab();
+    const {editorSocket} = useEditorSocketStore();
 
     async function downloadTheme() {
         const response = await fetch('/src/assets/editor-theme/Dracula.json');
@@ -24,19 +25,39 @@ export const EditorComponent = () => {
         monaco.editor.setTheme('dracula');
     }
 
-    editorSocket?.on("readFileSuccess", (data) => { 
-        console.log("Read file success", data);
-        setActiveFileTab(data.path, data.value)
-    });
+    function handleChange(value) {
+        /**
+         * * Debouncing technique
+         */
+        if(timerId !== null) {
+            clearTimeout(timerId);
+        }
+        timerId = setTimeout(() => {
+            const editorContent = value;
+            console.log("Sending write file event");
+            
+            editorSocket.emit("writeFile", {
+                data: editorContent,
+                pathToFileOrFolder: activeFileTab.path,
+            });
+        }, 2000);
+    }
+    /** 
+    * ! This Message is 
+    * * Highlighted for u
+    * TODO kam kor
+    * ? oi what
     
+    */
     
     useEffect(() => {
         downloadTheme();
     }, []);
     return (
         /**
-        TODO:
-            setup a theme for code editor 
+        * TODO:
+            * Setup a theme for editor
+        * * Done   
         
         */
         <>
@@ -51,6 +72,7 @@ export const EditorComponent = () => {
                         fontFamily: 'monospace'
                     }}
                     onMount={handleEditorTheme}
+                    onChange={handleChange}
                 />
             } 
         </>

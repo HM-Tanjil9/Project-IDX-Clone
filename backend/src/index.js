@@ -39,9 +39,7 @@ const editorNamespace = io.of('/editor');
 editorNamespace.on("connection", (socket) => {
     console.log("Editor connected");
     // get projectId from frontend
-    
     let projectId = socket.handshake.query['projectId'];
-
     console.log("Project id received after connection", projectId);
     
     if (projectId) {
@@ -60,7 +58,7 @@ editorNamespace.on("connection", (socket) => {
             
         })
     }
-    handleEditorSocketEvents(socket);
+    handleEditorSocketEvents(socket, editorNamespace);
 
     socket.on("disconnect", () => {
         console.log('editor disconnected');

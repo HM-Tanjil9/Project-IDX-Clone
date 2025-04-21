@@ -6,7 +6,7 @@ export const TreeNode = ({fileFolderData}) => {
     const [visibility, setVisibility] = useState({});
     const {editorSocket} = useEditorSocketStore();
 
-    console.log("file folder data", fileFolderData);
+    // console.log("file folder data", fileFolderData);
     
     function toggleVisibility(name) {
         setVisibility({
