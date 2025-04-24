@@ -35,6 +35,7 @@ io.on('connection', (socket) => {
     console.log('a user connected');
 });
 
+// editor events
 const editorNamespace = io.of('/editor');
 editorNamespace.on("connection", (socket) => {
     console.log("Editor connected");
@@ -66,6 +67,24 @@ editorNamespace.on("connection", (socket) => {
     })
     
 })
+
+// terminal events
+const terminalNamespace = io.of('/terminal');
+terminalNamespace.on("connection", (socket) => {
+    console.log('Terminal connected');
+
+    socket.on("shell-input", (data) => {
+        console.log("input received", data);
+        terminalNamespace.emit("shell-output", data)
+    })
+
+
+    socket.on("disconnect", () => {
+        console.log('Terminal disconnected');
+        
+    })
+    
+});
 
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

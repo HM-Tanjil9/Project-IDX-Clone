@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import { EditorButton } from "../components/atoms/EditorButton/EditorButton.jsx";
+import { BrowserTerminal } from "../components/molecules/BrowserTerminal/BrowserTerminal.jsx";
 import { EditorComponent } from "../components/molecules/EditorComponent/EditorComponent.jsx";
 import { TreeStructure } from "../components/organisms/TreeStructure/TreeStructure.jsx";
 import { useEditorSocketStore } from "../store/editorSocketStore.js";
@@ -45,6 +46,9 @@ export const ProjectsPlayground = () => {
             </div>
             <EditorButton isActive={true}/>
             <EditorButton isActive={false}/>
+            <div>
+                <BrowserTerminal/>
+            </div>
         </div>
     )
 }
