@@ -22,8 +22,8 @@ export const BrowserTerminal = () => {
                 yellow: '#f1fa8c',
                 cyan: '#8be9fd'
             },
-            fontSize: 14,
-            fontFamily: 'Ubuntu Mono',
+            fontSize: 16,
+            fontFamily: 'Fira Code',
             convertEol: true,
         });
 
