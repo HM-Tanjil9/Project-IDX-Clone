@@ -5,6 +5,7 @@ import { StatusCodes } from 'http-status-codes';
 import { createServer } from 'node:http';
 import { Server } from 'socket.io';
 import { PORT } from './config/serverConfig.js';
+import { handleContainerCreate } from './containers/handleContainerCreate.js';
 import apiRouter from './routes/index.js';
 import { handleEditorSocketEvents } from './socketHandlers/editorHandler.js';
 
@@ -41,7 +42,7 @@ editorNamespace.on("connection", (socket) => {
     console.log("Editor connected");
     // get projectId from frontend
     let projectId = socket.handshake.query['projectId'];
-    console.log("Project id received after connection", projectId);
+    // console.log("Project id received after connection", projectId);
     
     if (projectId) {
         const watcher = chokidar.watch(`./projects/${projectId}`, {
@@ -72,21 +73,25 @@ editorNamespace.on("connection", (socket) => {
 const terminalNamespace = io.of('/terminal');
 terminalNamespace.on("connection", (socket) => {
     console.log('Terminal connected');
+    let projectId = socket.handshake.query['projectId'];
 
     socket.on("shell-input", (data) => {
         console.log("input received", data);
         terminalNamespace.emit("shell-output", data)
-    })
+    });
 
 
     socket.on("disconnect", () => {
         console.log('Terminal disconnected');
         
-    })
+    });
+
+    handleContainerCreate(projectId, socket);
     
 });
 
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+    console.log("path check", process.cwd());
     
 });
