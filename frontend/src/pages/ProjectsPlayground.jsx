@@ -6,12 +6,19 @@ import { BrowserTerminal } from "../components/molecules/BrowserTerminal/Browser
 import { EditorComponent } from "../components/molecules/EditorComponent/EditorComponent.jsx";
 import { TreeStructure } from "../components/organisms/TreeStructure/TreeStructure.jsx";
 import { useEditorSocketStore } from "../store/editorSocketStore.js";
+import { useTerminalSocketStore } from "../store/terminalSocketStore.js";
 import { useTreeStructureStore } from "../store/useTreeStructureStore.js";
+
 
 export const ProjectsPlayground = () => {
     const {projectId: projectIdFromUrl} = useParams();
     const {projectId, setProjectId} = useTreeStructureStore();
-    const {setEditorSocket} = useEditorSocketStore();
+    const {editorSocket, setEditorSocket} = useEditorSocketStore();
+    const {setTerminalSocket} = useTerminalSocketStore();
+    function fetchPort() {
+        console.log('fetch port');
+        editorSocket.emit('getPort');
+    }
     useEffect(() => {
         if(projectIdFromUrl) {
             setProjectId(projectIdFromUrl);
@@ -20,9 +27,14 @@ export const ProjectsPlayground = () => {
                     projectId: projectIdFromUrl,
                 }
             });
+            /**
+             * !!! attachAddon didn't work properly with socket.IO
+             */
+            const ws = new WebSocket("ws://localhost:2080/terminal?projectId="+projectIdFromUrl); // new Raw websocket for attachAddon 
+            setTerminalSocket(ws);
             setEditorSocket(editorSocketConn);
         }
-    },[setProjectId, projectIdFromUrl, setEditorSocket]);
+    },[setProjectId, projectIdFromUrl, setEditorSocket, setTerminalSocket]);
     return (
         <div>
             <div style={{display: 'flex'}}>
@@ -46,6 +58,7 @@ export const ProjectsPlayground = () => {
             </div>
             <EditorButton isActive={true}/>
             <EditorButton isActive={false}/>
+            <button onClick={fetchPort}>Get Port</button>
             <div>
                 <BrowserTerminal/>
             </div>
