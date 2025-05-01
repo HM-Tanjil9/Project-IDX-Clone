@@ -16,8 +16,9 @@ export const ProjectsPlayground = () => {
     const {editorSocket, setEditorSocket} = useEditorSocketStore();
     const {setTerminalSocket} = useTerminalSocketStore();
     function fetchPort() {
+        editorSocket.emit('getPort', {containerName: projectIdFromUrl});
         console.log('fetch port');
-        editorSocket.emit('getPort');
+        
     }
     useEffect(() => {
         if(projectIdFromUrl) {
@@ -30,7 +31,7 @@ export const ProjectsPlayground = () => {
             /**
              * !!! attachAddon didn't work properly with socket.IO
              */
-            const ws = new WebSocket("ws://localhost:2080/terminal?projectId="+projectIdFromUrl); // new Raw websocket for attachAddon 
+            const ws = new WebSocket("ws://localhost:3333/terminal?projectId="+projectIdFromUrl); // new Raw websocket for attachAddon 
             setTerminalSocket(ws);
             setEditorSocket(editorSocketConn);
         }
