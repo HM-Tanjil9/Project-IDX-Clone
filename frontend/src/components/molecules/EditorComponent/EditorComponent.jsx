@@ -43,13 +43,6 @@ export const EditorComponent = () => {
             });
         }, 2000);
     }
-    /** 
-    * ! This Message is 
-    * * Highlighted for u
-    * TODO kam kor
-    * ? oi what
-    
-    */
     
     useEffect(() => {
         downloadTheme();
@@ -65,7 +58,7 @@ export const EditorComponent = () => {
             {
                 editorState.theme && 
                 <Editor 
-                    height={'100vh'}
+                    width={'100%'}
                     defaultLanguage={undefined}
                     language={extensionToFileType(activeFileTab?.extension)}
                     defaultValue= "// Welcome to the playground"

@@ -66,7 +66,13 @@ export async function getContainerPort(containerName) {
     if(container.length > 0) {
         const containerInfo = await docker.getContainer(container[0].Id).inspect();
         console.log('container info', containerInfo);
-        return containerInfo.NetworkSettings.Ports['5173/tcp'][0].HostPort;
+        try{
+            return containerInfo?.NetworkSettings?.Ports['5173/tcp'][0].HostPort;
+        }catch(err) {
+            console.log('Port not present');
+            return undefined;
+        }
+        
         
     }
 }

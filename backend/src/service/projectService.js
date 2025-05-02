@@ -13,7 +13,7 @@ export const createProjectService = async () => {
     // create folder with unique id 
     await fs.mkdir(`./projects/${projectId}`);
     // await issue
-    const response = await execPromisified (
+    const response = execPromisified (
         REACT_PROJECT_CREATE,
         { cwd: `./projects/${projectId}` }
     );

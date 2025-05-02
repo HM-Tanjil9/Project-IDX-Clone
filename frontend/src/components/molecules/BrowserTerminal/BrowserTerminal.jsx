@@ -49,8 +49,7 @@ export const BrowserTerminal = () => {
         <div
             ref={terminalRef}
             style={{
-                height: '25%vh',
-                overflow: 'auto'
+                width: '100vw',
             }}
             className='terminal'
             id='terminal-container'

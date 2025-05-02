@@ -27,28 +27,22 @@ const webSocketForTerminal = new WebSocketServer({
 });
 
 
-
-webSocketForTerminal.on("connection", async (ws, req, container) => {
+webSocketForTerminal.on("connection", async (ws, req) => { // Removed `container` parameter
     console.log('Terminal connected');
     const isTerminal = req.url.includes("/terminal");
-    if(isTerminal) {
+    if (isTerminal) {
         const projectId = req.url.split('=')[1];
         console.log("Id after connection", projectId);
-        const container = await handleContainerCreate(projectId, webSocketForTerminal,);
-        handleTerminalCreation(container, ws);
         
+        try {
+            const container = await handleContainerCreate(projectId, webSocketForTerminal);
+            if (!container) {
+                throw new Error("Failed to create container");
+            }
+            handleTerminalCreation(container, ws);
+        } catch (err) {
+            console.error("Error in terminal connection:", err);
+            ws.close(); // Close connection if container creation fails
+        }
     }
-
-    // after close connection
-    // ws.on("close", () => {
-    //     container.remove({force: true,}, (err, data) => {
-    //         if(err) {
-    //             console.log("Error while removing container", err);
-    //             return;
-    //         }
-    //         console.log('Container remove', data);
-            
-    //     })
-    // })
-    
-})
+});
