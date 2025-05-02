@@ -1,1 +1,1 @@
-![Uploading 250503_01h30m51s_screenshot.png…]()
+![Final look](https://github.com/user-attachments/assets/9803b533-f762-40d7-aa55-058467560841)
